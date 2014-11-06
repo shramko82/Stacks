@@ -1,8 +1,8 @@
 import java.lang.reflect.Array;
 
-// Dequeu - двусторонн€€ очередь
-// ѕример инициализации: Dequeu<String> = new Dequeu<String>(String.class,10)
-// pushBack(x) Ц добавить x в хвост, и popBack() Ц извлечь из хвоста. 
+
+// Initialize example: Dequeu<String> = new Dequeu<String>(String.class,10)
+// push..(x) Ц add x to head/tail, и pop...() Ц get item from head/tail. 
 
 class Deque<K> {
     int size;

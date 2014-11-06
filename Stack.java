@@ -1,9 +1,8 @@
 
 import java.lang.reflect.Array;
 
-//при реализации наткнулс€ на проблему, когда нельз€ инициализировать массив неизвестного типа  
-//при объ€влении стека следует использовать конструкцию типа Stack<String> = new Stack<String>(String.class,10)
-//push(x) Ц добавить x в стек, и pop() Ц извлечь верхушку из стека. 
+//Initialize example: Stack<String> = new Stack<String>(String.class,10)
+//push(x) Ц add x, и pop() Ц get item from the stack. 
 public class Stack<K> {
 	int size;
 	K[] data;
