@@ -25,6 +25,11 @@ public class Stack<K> {
 	}
 
 	K pop() {
-		return data[--size];
+		try {
+			return data[--size];
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
