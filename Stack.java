@@ -49,7 +49,7 @@ public class Stack<K> {
     }
     private void grow(int minCapacity) {
         // overflow-conscious code
-        int oldCapacity = data.length;
+        int oldCapacity = minCapacity;
         int newCapacity = oldCapacity + (oldCapacity >> 1);
         if (newCapacity - minCapacity < 0)
             newCapacity = minCapacity;
