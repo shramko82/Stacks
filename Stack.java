@@ -85,6 +85,8 @@ public class Stack<K> {
 
 	@SuppressWarnings("unchecked")
 	K pop() {
+		if (size == 0)
+			return null;
         return (K) data[--size];
 	}
 }

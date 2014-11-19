@@ -1,48 +1,89 @@
-import java.lang.reflect.Array;
-
-
-// Initialize example: Dequeu<String> = new Dequeu<String>(String.class,10)
-// push..(x) – add x to head/tail, è pop...() – get item from head/tail. 
 
 class Deque<K> {
-    int size;
-    int head;
-    int tail;
-    K[] data;
+    int size = 0;
+    
+    Node<K> first;
+    Node<K> last;
 
+    private static class Node<K> {
+        K item;
+        Node<K> next;
+        Node<K> prev;
 
-    Deque(Class kClass, int size) {
-        
-        data = (K[]) Array.newInstance(kClass, this.size = size);
-        
+        Node(Node<K> prev, K element, Node<K> next) {
+            this.item = element;
+            this.next = next;
+            this.prev = prev;
+        }
+    }
+    //List list = new LinkedList();
+
+    public Deque() {
+    	
     }
 
-    void pushBack(K value) {
-        if (++tail == size)
-            tail = 0;
-        data[tail] = value;
+    private K unlinkFirst(Node<K> f) {
+        // assert f == first && f != null;
+        final K element = f.item;
+        final Node<K> next = f.next;
+        f.item = null;
+        f.next = null; // help GC
+        first = next;
+        if (next == null)
+            last = null;
+        else
+            next.prev = null;
+        size--;
+
+        return element;
+    }
+    
+    private K unlinkLast(Node<K> l) {
+        // assert l == last && l != null;
+        final K element = l.item;
+        final Node<K> prev = l.prev;
+        l.item = null;
+        l.prev = null; // help GC
+        last = prev;
+        if (prev == null)
+            first = null;
+        else
+            prev.next = null;
+        size--;
+  
+        return element;
     }
 
-    K popBack() {
-        K ret = data[tail];
-        if (--tail < 0)
-            tail = size - 1;
-        return ret;
+    public K popLast() {
+        final Node<K> l = last;
+        return unlinkLast(l);
+    }
+    
+    public K popFirst() {
+        final Node<K> f = first;
+        return unlinkFirst(f);
     }
 
-    void pushFront(K value) {
-        data[head] = value;
-        if (--head < 0)
-            head = size - 1;
+    public void pushFirst(K e) {
+        final Node<K> f = first;
+        final Node<K> newNode = new Node<>(null, e, f);
+        first = newNode;
+        if (f == null)
+            last = newNode;
+        else
+            f.prev = newNode;
+        size++;
     }
 
-    K popFront() {
-        if (++head == size)
-            head = 0;
-        return data[head];
+    public void pushLast(K e) {
+        final Node<K> l = last;
+        final Node<K> newNode = new Node<>(l, e, null);
+        last = newNode;
+        if (l == null)
+            first = newNode;
+        else
+            l.next = newNode;
+        size++;
     }
 
-    boolean isEmpty() {
-        return head == tail;
-    }
 }
