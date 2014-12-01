@@ -58,15 +58,15 @@ public class Deque<K> {
     public K popLast() {
         if (size == 0)
             return null;
-        final Node<K> l = last;
-        return unlinkLast(l);
+        //final Node<K> l = last;
+        return unlinkLast(last);
     }
     
     public K popFirst() {
         if (size == 0)
             return null;
-        final Node<K> f = first;
-        return unlinkFirst(f);
+        //final Node<K> f = first;
+        return unlinkFirst(first);
     }
 
     public void pushFirst(K e) {
