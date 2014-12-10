@@ -7,7 +7,7 @@ public class Deque<K> {
     Node<K> last;
 
     private static class Node<K> {
-        K item;
+        K item; 
         Node<K> next;
         Node<K> prev;
 
