@@ -1,10 +1,11 @@
 package main;
 
 import java.lang.reflect.Array;
+import java.util.Iterator;
 
 //Initialize example: Stack<String> = new Stack<String>(String.class,10)
 //push(x) – add x, è pop() – get item from the stack. 
-public class Stack<K> {
+public class Stack<K> implements Iterable<K> {
     int size;
     public Object[] data;
 
@@ -96,4 +97,24 @@ public class Stack<K> {
             return null;
         return (K) data[--size];
     }
+
+	@Override
+	public Iterator<K> iterator() {
+		return new Iterator<K>() {
+			private int index = 0;
+
+			public boolean hasNext() {
+				return index < size;
+			}
+
+			@SuppressWarnings("unchecked")
+			public K next() {
+				return (K) data[index++];
+			}
+
+			public void remove() { // Not implemented
+				throw new UnsupportedOperationException();
+			}
+		};
+	}
 }

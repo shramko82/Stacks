@@ -1,6 +1,8 @@
 package main;
 
-public class Deque<K> {
+import java.util.Iterator;
+
+public class Deque<K> implements Iterable<K> {
     int size = 0;
     
     Node<K> first;
@@ -17,7 +19,6 @@ public class Deque<K> {
             this.prev = prev;
         }
     }
-    //List list = new LinkedList();
 
     public Deque() {
     	
@@ -90,5 +91,32 @@ public class Deque<K> {
             l.next = newNode;
         size++;
     }
+    
+	@Override
+	public Iterator<K> iterator() {
+		return new Iterator<K>() {
+			private int index = 0;
+			private Node<K> currentIterator;
+
+			public boolean hasNext() {
+				return index < size;
+			}
+
+			public K next() {
+				if (index++ == 0) {
+					currentIterator = first;
+					return (K) currentIterator.item;
+				} else {
+					currentIterator = currentIterator.next;
+					return (K) currentIterator.item;
+				}
+
+			}
+
+			public void remove() { // Not implemented
+				throw new UnsupportedOperationException();
+			}
+		};
+	}
 
 }
