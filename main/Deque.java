@@ -25,11 +25,11 @@ public class Deque<K> implements Iterable<K> {
     }
 
     private K unlinkFirst(Node<K> f) {
-        // assert f == first && f != null;
+
         final K element = f.item;
         final Node<K> next = f.next;
         f.item = null;
-        f.next = null; // help GC
+        f.next = null; 
         first = next;
         if (next == null)
             last = null;
@@ -41,11 +41,11 @@ public class Deque<K> implements Iterable<K> {
     }
     
     private K unlinkLast(Node<K> l) {
-        // assert l == last && l != null;
+
         final K element = l.item;
         final Node<K> prev = l.prev;
         l.item = null;
-        l.prev = null; // help GC
+        l.prev = null;
         last = prev;
         if (prev == null)
             first = null;
@@ -59,14 +59,12 @@ public class Deque<K> implements Iterable<K> {
     public K popLast() {
         if (size == 0)
             return null;
-        //final Node<K> l = last;
         return unlinkLast(last);
     }
     
     public K popFirst() {
         if (size == 0)
             return null;
-        //final Node<K> f = first;
         return unlinkFirst(first);
     }
 

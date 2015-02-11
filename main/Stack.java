@@ -6,8 +6,8 @@ import java.util.Iterator;
 //Initialize example: Stack<String> = new Stack<String>(String.class,10)
 //push(x) – add x, è pop() – get item from the stack. 
 public class Stack<K> implements Iterable<K> {
-    int size;
-    public Object[] data;
+	private int size;
+	private  Object[] data;
 
     private static final Object[] EMPTY_ELEMENTDATA = {};
     private static final int DEFAULT_CAPACITY = 10;
@@ -17,6 +17,18 @@ public class Stack<K> implements Iterable<K> {
         this.data = EMPTY_ELEMENTDATA;
     }
 
+    public boolean isEmpty() {
+        return size == 0;
+    }
+    
+    public int size() {
+        return size;
+    }
+    
+    public int length() {
+        return data.length;
+    }
+    
     public Stack(int initialCapacity) {
         if (initialCapacity < 0)
             throw new IllegalArgumentException("Illegal Capacity: "
@@ -24,42 +36,31 @@ public class Stack<K> implements Iterable<K> {
         this.data = new Object[initialCapacity];
     }
 
-    public void ensureCapacity(int minCapacity) {
-        int minExpand = (data != EMPTY_ELEMENTDATA)
-        // any size if real element table
-        ? 0
-                // larger than default for empty table. It's already supposed to
-                // be
-                // at default size.
-                : DEFAULT_CAPACITY;
-
-        if (minCapacity > minExpand) {
-            ensureExplicitCapacity(minCapacity);
-        }
-    }
-
-    private void ensureCapacityInternal(int minCapacity) {
+    private void ensureCapacityGrow(int newCapacity) {
         if (data == EMPTY_ELEMENTDATA) {
-            minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);
+        	newCapacity = Math.max(DEFAULT_CAPACITY, newCapacity);
+        	grow(newCapacity);
+        } else if (newCapacity * 2 - length() > 0)
+        	grow(length()*2);
+    }
+
+    private void ensureCapacityDecrease(int newCapacity) {
+        if (data == EMPTY_ELEMENTDATA) {
+        	throw new IllegalArgumentException("Illegal Capacity: "
+                    + newCapacity);
         }
-        ensureExplicitCapacity(minCapacity);
+        if ((newCapacity < length()/4) && (length() > DEFAULT_CAPACITY))
+        	decrease(Math.max(DEFAULT_CAPACITY,length()/2));
+    }
+    
+    private void decrease(int newCapacity) {
+    	newCapacity = Math.max(newCapacity, DEFAULT_CAPACITY);
+    	data = copyOf(data, newCapacity);
     }
 
-    private void ensureExplicitCapacity(int minCapacity) {
-
-        if (minCapacity * 2 - data.length > 0)
-            grow(minCapacity);
-    }
-
-    private void grow(int minCapacity) {
-        // overflow-conscious code
-        int oldCapacity = minCapacity;
-        int newCapacity = oldCapacity + (oldCapacity >> 1);
-        if (newCapacity - minCapacity < 0)
-            newCapacity = minCapacity;
+    private void grow(int newCapacity) {
         if (newCapacity - MAX_ARRAY_SIZE > 0)
-            newCapacity = hugeCapacity(minCapacity);
-        // minCapacity is usually close to size, so this is a win:
+            newCapacity = hugeCapacity(newCapacity);
         data = copyOf(data, newCapacity);
     }
 
@@ -87,14 +88,15 @@ public class Stack<K> implements Iterable<K> {
     }
 
     public void push(K value) {
-        ensureCapacityInternal(size + 1);
+        ensureCapacityGrow(size + 1);
         data[size++] = value;
     }
 
     @SuppressWarnings("unchecked")
     public K pop() {
-        if (size == 0)
+        if (size() == 0)
             return null;
+        ensureCapacityDecrease(size - 1);
         return (K) data[--size];
     }
 
