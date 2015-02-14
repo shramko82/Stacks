@@ -97,8 +97,10 @@ public class Stack<K> implements Iterable<K> {
         if (size() == 0)
             return null;
         ensureCapacityDecrease(size - 1);
-        data[size] = null;
-        return (K) data[--size];
+        K item = (K) data[size-1];
+        data[size-1] = null;
+        size--;
+        return item;
     }
 
 	@Override
