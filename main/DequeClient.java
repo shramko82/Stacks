@@ -8,9 +8,21 @@ import java.util.Date;
 import java.util.Random;
 import java.util.StringTokenizer;
 
-public class DequeClient {
+public class DequeClient extends Thread {
 
-	static void processFile(BufferedReader reader) {
+	BufferedReader reader;
+	
+	public DequeClient(BufferedReader reader) {
+		this.reader = reader;
+	}
+	
+	public void run() {
+		for (int i = 0; i < 10000; i++) {
+			doSmth();
+		}
+	}
+	
+	public void doSmth() {
 		Date d1 = new Date();
 		Deque<String> deque = new Deque<String>();
 		String line = null;
@@ -51,11 +63,9 @@ public class DequeClient {
 
 			}
 			Date d2 = new Date();
-			System.out.println("Total words " + n);
-			System.out.println("Total added " + added);
-			System.out.println("Total taken " + taken);
 			long time = d2.getTime() - d1.getTime();
-			System.out.println("Time of processing (ms) " + time);
+			//System.out.println("Tread "+this+" fineshed. Time of processing (ms) " + time);
+			reader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
@@ -67,14 +77,16 @@ public class DequeClient {
 
 		try {
 			File file = new File("1\\tolstoy.txt");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					new FileInputStream(file), "UTF-8"));
-			processFile(reader);
-
-			reader.close();
+			for (int i = 0; i < 10000; i++) {
+				new DequeClient (new BufferedReader(new InputStreamReader(
+						new FileInputStream(file), "UTF-8"))).doSmth();
+				
+				
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 
 	}
 

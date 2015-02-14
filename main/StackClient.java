@@ -10,7 +10,13 @@ import java.util.StringTokenizer;
 
 public class StackClient {
 
-	static void processFile(BufferedReader reader) {
+	BufferedReader reader;
+	
+	public StackClient(BufferedReader reader) {
+		this.reader = reader;
+	}
+	
+	void processFile() {
 		Stack<String> stack = new Stack<String>();
 		String line = null;
 		int n = 0;
@@ -44,14 +50,12 @@ public class StackClient {
 				}
 			}
 			Date d2 = new Date();
-			System.out.println("Total words " + n);
-			System.out.println("Total added " + added);
-			System.out.println("Total taken " + taken);
 			long time = d2.getTime() - d1.getTime();
-			System.out.println("Time of processing (ms) " + time);
+			//System.out.println("Time of processing (ms) " + time);
+			reader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return;
+			return; 
 		}
 
 	}
@@ -60,11 +64,12 @@ public class StackClient {
 
 		try {
 			File file = new File("1\\tolstoy.txt");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					new FileInputStream(file), "UTF-8"));
-			processFile(reader);
+			for (int i = 0; i < 1000; i++) {
+			new StackClient(new BufferedReader(new InputStreamReader(
+					new FileInputStream(file), "UTF-8"))).processFile();
+			
 
-			reader.close();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
