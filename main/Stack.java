@@ -101,6 +101,7 @@ public class Stack<K> implements Iterable<K> {
         data[size-1] = null;
         size--;
         return item;
+//        return (K) data[size--];
     }
 
 	@Override
