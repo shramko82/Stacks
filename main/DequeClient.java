@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.Date;
 import java.util.Random;
 import java.util.StringTokenizer;
 
@@ -23,12 +22,9 @@ public class DequeClient extends Thread {
 	}
 	
 	public void doSmth() {
-		Date d1 = new Date();
 		Deque<String> deque = new Deque<String>();
 		String line = null;
 		int n = 0;
-		int added = 0;
-		int taken = 0;
 		try {
 			while ((line = reader.readLine()) != null) {
 
@@ -40,31 +36,23 @@ public class DequeClient extends Thread {
 					int intRand;
 					if (n < 100) {
 						deque.pushLast(st.nextToken());
-						added++;
 					}
 
 					else {
 						intRand = rand.nextInt(4);
 						if (intRand == 0) {
 							deque.pushLast(st.nextToken());
-							added++;
 						} else if (intRand == 1) {
 							deque.pushFirst(st.nextToken());
-							added++;
 						} else if (intRand == 2) {
 							deque.popFirst();
-							taken++;
 						} else if (intRand == 3) {
 							deque.popFirst();
-							taken++;
 						}
 					}
 				}
 
 			}
-			Date d2 = new Date();
-			long time = d2.getTime() - d1.getTime();
-			//System.out.println("Tread "+this+" fineshed. Time of processing (ms) " + time);
 			reader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
